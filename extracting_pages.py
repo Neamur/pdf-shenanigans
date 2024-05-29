@@ -4,6 +4,7 @@ import inquirer
 import pprint
 from rich import print as rprint
 from rich.console import Console
+from rich.panel import Panel
 from inquirer.themes import GreenPassion, BlueComposure
 global selected_pages
 
@@ -52,10 +53,10 @@ def all_pages(num_pages,selected_pdf,reader):
 def select_pages(selected_pages,selected_pdf):
     for i in selected_pages:
         output_filename = os.path.join(output_folder, f'{selected_pdf}_{i}.pdf')
-        with open(output_filename, 'wb') as output_file:
-            pdf_writer = PdfWriter()
-            pdf_writer.add_page(reader.pages[int(i[4:])-1])
-            pdf_writer.write(output_file)
+        # with open(output_filename, 'wb') as output_file:
+        pdf_writer = PdfWriter()
+        pdf_writer.add_page(reader.pages[int(i[4:])-1])
+        pdf_writer.write(output_file)
     console.print(f"[bold green]👍 PDF pages from \[{selected_pdf}] extracted successfully! \n")
 console = Console()
 
@@ -160,7 +161,7 @@ def many_pdfs_settings_runner():    # pass the settings and selected_pages as ar
 settings_check = True
 page_selection_check = True
 counter = 0
-extracting_option_check = None
+extracting_option_check = True
 output_folder = 'pdf_pages'
 
 if not os.path.exists(output_folder):
@@ -186,15 +187,15 @@ for selected_pdf in selected_pdfs:
             if settings_check == True:
                 settings_prompt = inquirer.prompt(keep_settings)
                 settings = settings_prompt["settings"]
-                if settings == "Yes":
-                    settings_check = False
-                    page_selection_check = False
-                    # all_pages(num_pages=num_pages,selected_pdf=selected_pdf,reader=reader)
-                else:
-                    # all_pages(num_pages=num_pages,selected_pdf=selected_pdf,reader=reader)
-                    page_selection_check = True
-                    settings_check = False
-                    extracting_option_check = True
+            if settings == "Yes":
+                settings_check = False
+                page_selection_check = False
+                # all_pages(num_pages=num_pages,selected_pdf=selected_pdf,reader=reader)
+            else:
+                # all_pages(num_pages=num_pages,selected_pdf=selected_pdf,reader=reader)
+                page_selection_check = True
+                settings_check = False
+                extracting_option_check = True
             # else:
                 # all_pages(num_pages=num_pages,selected_pdf=selected_pdf,reader=reader)
         # else:
@@ -205,21 +206,40 @@ for selected_pdf in selected_pdfs:
             #     select_pages(selected_pages,selected_pdf)
 
     elif extracting_option == "Select pages to extract":
-        selected_pages = selecting_pages(num_pages)
-        if page_selection_check == True:
+        if page_selection_check == False:
+            try:
+                select_pages(selected_pages,selected_pdf)
+            except:
+                console.print(f'[bold][red]⚠️ Error: page num selected exceeded the number of pages in the current pdf [/bold] [italic red]\[{selected_pdf}]')
+                Panel.fit("[bold yellow]Any page selected which exceeds the length of the current pdf will not be extracted.", border_style="red")
+            
+            # page_selection_check = False
+
+            # selected_pages = selecting_pages(num_pages)
+
+        elif page_selection_check == True:
+            selected_pages = selecting_pages(num_pages)
+            select_pages(selected_pages,selected_pdf)
+
             if len(selected_pdfs) >1:
                 if settings_check == True:
                     settings_prompt = inquirer.prompt(keep_settings)
                     settings = settings_prompt["settings"]
-                    if settings == "Yes":
-                        page_selection_check = False
-                        settings_check =False
-                    else:
-                        # extracting_option = "All pages" #extracting_prompt["Extracting"]
-                        page_selection_check = True
-                        settings_check =False
-                        extracting_option_check = True
-        select_pages(selected_pages,selected_pdf)
+                if settings == "Yes":
+                    page_selection_check = False
+                    settings_check =False
+                    extracting_option_check = False
+                else:
+                    # extracting_option = "All pages" #extracting_prompt["Extracting"]
+                    page_selection_check = True
+                    settings_check =False
+                    extracting_option_check = True
+            # else:
+                # selected_pages = selecting_pages(num_pages)
+                # select_pages(selected_pages,selected_pdf)
+
+                
+        # select_pages(selected_pages,selected_pdf)
 
 
     # console.print(f"[bold green]👍 PDF pages from \[{selected_pdf}] extracted successfully! \n")
