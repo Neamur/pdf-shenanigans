@@ -8,6 +8,7 @@ trynna avoid paying subscription fees and stuff
 
 - [ ] gotta add comments to `scritp.py` -> is about merging pdfs.
 - [X] `rotator_inq.py` is done.
+- [ ] `rotator_complex.py` is NOT done.
 - [ ] splitting pages in inq mode.
 - [X] extracting pages in inq mode.
 - [ ] `numbering pages` has to be made in inquirer
@@ -57,6 +58,7 @@ trynna avoid paying subscription fees and stuff
 - For the orientation issue, applying `transfer_rotation_to_content` doesnt seem to help.
     - will try setting new page coordinates this time or maybe the rotate counter clockwise.
         - doesnt exist
+    - update: [31/5/2024] `transfer_rotation_to_content` from `pypdf` does work when setting page orientation to `L` in `fpdf`.
 ### Test cases
 - [ ] single pdf
     - [ ] Top
@@ -79,6 +81,9 @@ trynna avoid paying subscription fees and stuff
 ---
 ## Rotating pdfs.
 - [X] complete.
+### Rotating complex.
+- [ ] lots of bugs in the system! Note all the behavioural issues and then find a fix for it.
+
 ### Features to add.
 - [ ] give options to choose rotate all pages by selected angle.
 - [ ] option to choose pages of a pdf from selected pdfs and rotate them by selected angle.
@@ -94,9 +99,13 @@ trynna avoid paying subscription fees and stuff
             |_ All
             |_ select pages.
     ```
-- [ ] "⚠️ **Warning**: unable to extract [Page 12] from [xyz.pdf] with only [num_of_pages] pages"
+- [X] "⚠️ **Warning**: unable to extract [Page 12] from [xyz.pdf] with only [num_of_pages] pages"
     - give this warning when the user set the apply same settings to all, and the pdf doesnt have the selected page number.
+    - [X] **Implenentation**: grab the page num during the `except` in the try and except block druing extrating, then return tht page number for the error message. also the `num_pages` from the current for loop, also the `pdf name` in the current loop.
 - [X] ask once whether to apply same settings or not, then based on answer show the option to select pages for the next pdf/s.
+- [ ] show inquirer based file navigation option to the user to navigate to the folder and select that as the working folder instead of setting the current folder as the working folder.
+    - [ ] set this in a sep branch called `cli exe`.
+    - [ ] just set it as a env variable in the system env vars. 
 ### NOTE
 -  as of writing, all the functionalities seem to work except for one case. thus i have disabled that case.
     - too tired to fix that right now, it goes 2 PDF +  -> all_pages() -> Same settings -> No -> applies to all of the pdfs
@@ -104,6 +113,7 @@ trynna avoid paying subscription fees and stuff
     - should be No -> give option in the next pdf to select individual pages / all_pages again.
 - thus right now when you select all pages, it applies that settings to all the selected pdfs.
 - update: [29/05/2024] gives the user to select "extraction method" after the user enters "No" for "same settings"
+- update: [29/05/2024] just converted to exe with `pyinstaller`.
 ### Test Cases
 - [X] 1 PDF
     - [X] all_pages()

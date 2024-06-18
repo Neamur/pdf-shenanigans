@@ -6,7 +6,6 @@ import io
 from fpdf import FPDF
 from pypdf import PdfReader, PdfWriter
 import inquirer
-import pprint
 import os
 global Page_no, total_pages, choice, position
 
@@ -119,9 +118,9 @@ for selected_pdf in selected_pdfs:
         page_dimension = reader.pages[ON_PAGE_INDEX].mediabox
         
         page_width_height = (page_dimension[2]//WIDTH_RATIO, page_dimension[3]//HEIGHT_RATIO)
-        
+        rotation=reader.pages[ON_PAGE_INDEX].get("/Rotate")
 
-        if ON_PAGE_INDEX == 21 or ON_PAGE_INDEX== 22:
+        if  rotation== -90 or rotation==90:
             # page_dimension = reader.pages[ON_PAGE_INDEX].mediabox
             print(f"Page {Page_no}")
             print("lower right: ",page_dimension.lower_right)
