@@ -119,7 +119,7 @@ def rotate_pdfs(selected_pdfs,rot_angle):
         reader = PdfReader(f"{pdf}")
         writer = PdfWriter()
         num_pages = len(reader.pages)
-        rotation()
+        # rotation()
         print(hold_rotation_angle)
         for i in range(len(reader.pages)):
             writer.add_page(reader.pages[i])
@@ -173,13 +173,14 @@ if __name__ == "__main__":
         # rotation()
         # print(hold_rotation_angle)
         console.print(f"[bold green]You are currently working on : \[{pdf}]")
-        selected_option, selected_options = option_all_few()         # apply to all pages/select pages? 
-        if pdf == pdfs[0] and selected_option == selected_options[0]:
+        if pdf == pdfs[0]:
+            selected_option, selected_options = option_all_few()         # apply to all pages/select pages? 
+        if pdf == pdfs[0] and len(pdfs)> 1 : #and selected_option == selected_options[0]:
             all_pdfs, apply_to_pdfs_option = apply_to_pdfs_ques()
-
-
-
-
+        elif len(pdfs) == 1:
+            all_pdfs ="No"
+        if len(pdfs)>1 and pdf == pdfs[0] and selected_option == selected_options[1]:
+            selected_pages = get_pages(num_pages=num_pages)
         if all_pdfs == "Yes" and selected_option == selected_options[0]:
             rotate_pdfs(selected_pdfs=pdfs,rot_angle=rot_angle)
 
@@ -188,20 +189,27 @@ if __name__ == "__main__":
                 writer.add_page(reader.pages[i])
                 writer.pages[i].rotate(rot_angle)
             writer.write(f"rotated-{pdf}")
-        elif all_pdfs == "Yes" and selected_option == selected_options[1]:
+        elif all_pdfs == "No" and selected_option == selected_options[1]:
             selected_pages = get_pages(num_pages=num_pages)
             # all_pdfs, apply_to_pdfs_option = apply_to_pdfs_ques()
             for i in range(num_pages):
-                writer.add_page(reader.pages[i])
                 if i in selected_pages:
+                    writer.add_page(reader.pages[i])
+
                 # current_page_index = int(i[4:])-1
                     writer.pages[i].rotate(rot_angle)  
             # with open(f"rotated-{pdf}", "wb") as fp:
             writer.write(f"rotated-{pdf}")
-        elif all_pdfs == "No" and selected_option == selected_options[1]:
-            for i in range(num_pages):
+        elif all_pdfs == "Yes" and selected_option == selected_options[1]:      # the logic below is wrong, should be for selected in pdfs; for selected_pg in pages; rotate. 
+            # for selected_pdf in pdfs:
+            #     print(selected_pages)
+
+            for i in selected_pages:
                 writer.add_page(reader.pages[i])
                 writer.pages[i].rotate(rot_angle)
+            # for i in range(num_pages):
+            #     writer.add_page(reader.pages[i])
+            #     writer.pages[i].rotate(rot_angle)
             writer.write(f"rotated-{pdf}")
         console.print(f"[bold green]Successfully rotated \[{pdf}] 👍\n")
 
