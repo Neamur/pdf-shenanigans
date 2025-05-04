@@ -1,0 +1,6 @@
+PyPDF4==1.27.0
+pypdf==4.2.0
+rich==13.7.1
+inquirer==3.2.4
+pdfnumbering==0.1.1
+readchar===4.0.6

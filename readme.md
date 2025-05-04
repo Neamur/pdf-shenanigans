@@ -15,7 +15,7 @@ trynna avoid paying subscription fees and stuff
     - [ ] other functionalities are still left to be implemented. see `numbering pages` section below
 - [ ] 
 
-## `numbering pages`
+## `numbering pages` AKA `orientation.py` (current iteration; figured out the orientation issue.)
 ---
 - ask the user with what number to start numbering, `default=1`
 - option to the user to select which features they want to work with, then give options to input values for those features.
@@ -23,7 +23,7 @@ trynna avoid paying subscription fees and stuff
     select the features:
     - [ ] numbering index
         - nani? what did i mean by this?
-    - [ ] num of pages to num
+    - [ ] num of pages to number
     - [ ] upto which page to number
     - [ ] fonts
         - [ ] selection option that presents all the available fonts.
@@ -114,6 +114,9 @@ trynna avoid paying subscription fees and stuff
 - thus right now when you select all pages, it applies that settings to all the selected pdfs.
 - update: [29/05/2024] gives the user to select "extraction method" after the user enters "No" for "same settings"
 - update: [29/05/2024] just converted to exe with `pyinstaller`.
+- update: [04/05/2025] so the compile cli command needs --collect-all readchar for the program to properly compile in linux for the merger script.
+  the collect all command is to copy the metadata properly.
+  
 ### Test Cases
 - [X] 1 PDF
     - [X] all_pages()
@@ -172,3 +175,22 @@ trynna avoid paying subscription fees and stuff
 - [ ] windows app with either QT, Tinker, or Briefcase
 - [ ] compiled app for cli with Pyinstaller or Click. 
 - [simple article showing various packaging libraries](https://www.blog.pythonlibrary.org/2021/05/27/pyinstaller-how-to-turn-your-python-code-into-an-exe-on-windows/). this article focuses on Pyinstaller.
+- update: [04/05/2025] so the compile cli command needs --collect-all readchar for the program to properly compile in linux for the merger script.
+  the collect all command is to copy the metadata properly.
+  
+- [ ] merger is now a stanalone application for linux. 
+    
+    `pyinstaller -D -F --collect-all readchar -n merger "scritp.py"``
+
+to add the program to your user and allow systemwide usage only for that user.
+- cp /path/to/your/pdfnumbering ~/.local/bin/
+- source ~/.bashrc
+
+
+## package versions (requirement.txt)
+PyPDF4==1.27.0
+pypdf==4.2.0
+rich==13.7.1
+inquirer==3.2.4
+pdfnumbering==0.1.1
+readchar===4.0.6
