@@ -35,6 +35,6 @@ This repository focuses on advanced PDF manipulation through code, offering a so
 
 ## Project Roadmap
 
-This code is an integral part of an ongoing project, highlighting its value as a robust PDF manipulation tool.
+This code is an integral part of an ongoing project, where it tries to overcome the challenges of Libreoffice and Adobe Acrobat.
 
 ---
