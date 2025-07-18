@@ -21,7 +21,7 @@ questions = [
         choices=[a for a in os.listdir() if a.endswith(".pdf")],
     ),
 ]
-
+    
 answers = inquirer.prompt(questions)
 pdfs =  [j for i in answers.values() for j in i]
 print(pdfs)
