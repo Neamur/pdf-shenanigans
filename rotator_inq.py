@@ -4,6 +4,7 @@ import os
 from pypdf import PdfWriter, PdfReader
 import inquirer
 import pprint
+import sys
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -18,6 +19,8 @@ questions = [
 
 # idk wht the bottom line does
 answers = inquirer.prompt(questions)    # most likely prompts the user 🤯
+if answers == None:
+    sys.exit(0)
 pdfs =  [j for i in answers.values() for j in i]    # list of the options the user selected
 # print("selected pdfs are -> ",pdfs,"\n")          # you can use this line instead of the 2 lines written below and remove a module (pretty print/ pprint) thus making this code base lighter and faster. 🤯
 print("selected pdfs are :")

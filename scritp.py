@@ -1,3 +1,5 @@
+""" Merges pdfs with a CLI interface """
+
 import os
 from pypdf import PdfWriter
 import inquirer

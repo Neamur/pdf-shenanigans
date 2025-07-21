@@ -1,6 +1,3 @@
-from rich.console import Console
-console = Console()
-
 """just rotator_inq.py but with more options for the user."""
 
 """ 
@@ -59,12 +56,13 @@ Features i want to implement.
 
 
 """
-
+from rich.console import Console
 import os
 from pypdf import PdfWriter, PdfReader
 import inquirer
 import pprint
-
+import sys
+console = Console()
 pp = pprint.PrettyPrinter(indent=4)
 
 # dict of pdfs that the user wants to rotate
@@ -72,13 +70,15 @@ def get_pdfs():
     question = [
         inquirer.Checkbox(
             "pdfs",
-            message="Select the pdfs that you wish to rotate (right arrow to select, left arrow to deselect):",
+            message="Select the pdfs that you wish to rotate (right arrow to select, left arrow to deselect)",
             choices=[a for a in os.listdir() if a.endswith(".pdf")],
         ),
     ]
 
     # idk wht the bottom line does
     answers = inquirer.prompt(question)    # most likely prompts the user 🤯
+    if answers == None:
+        sys.exit(0)
     pdfs =  [j for i in answers.values() for j in i]    # list of the options the user selected
     # print("selected pdfs are -> ",pdfs,"\n")          # you can use this line instead of the 2 lines written below and remove a module (pretty print/ pprint) thus making this code base lighter and faster. 🤯
     console.print("[blue]selected pdfs are :")
@@ -111,7 +111,7 @@ def get_pages(num_pages):
     prompt_pages_option = inquirer.prompt(pages_option)    # most likely prompts the user 🤯
     selected_pages =  [j for i in prompt_pages_option.values() for j in i]    # list of the options the user selected
     # print("selected pdfs are -> ",pdfs,"\n")          # you can use this line instead of the 2 lines written below and remove a module (pretty print/ pprint) thus making this code base lighter and faster. 🤯
-    console.print("[blue]selected pages are :")
+    console.print("[blue]Selected pages are :")
     pp.pprint(selected_pages)
     return [int(i[4:])-1 for i in selected_pages]
 def rotate_pdfs(selected_pdfs,rot_angle):
@@ -183,6 +183,7 @@ if __name__ == "__main__":
             selected_pages = get_pages(num_pages=num_pages)
         if all_pdfs == "Yes" and selected_option == selected_options[0]:
             rotate_pdfs(selected_pdfs=pdfs,rot_angle=rot_angle)
+            break
 
         elif all_pdfs == "No" and selected_option == selected_options[0]:
             for i in range(num_pages):
@@ -190,26 +191,33 @@ if __name__ == "__main__":
                 writer.pages[i].rotate(rot_angle)
             writer.write(f"rotated-{pdf}")
         elif all_pdfs == "No" and selected_option == selected_options[1]:
-            selected_pages = get_pages(num_pages=num_pages)
+            if pdf != pdfs[0] or len(pdfs)==1:
+                selected_pages = get_pages(num_pages=num_pages)
             # all_pdfs, apply_to_pdfs_option = apply_to_pdfs_ques()
-            for i in range(num_pages):
+            # elif len(pdfs) ==1 :
+            #     selected_pages = get_pages(num_pages=num_pages)
+            print(num_pages, selected_pages, writer.pages)
+            # for i in selected_pages:
+            #     writer.add_page(reader.pages[i])
+            #     # print(writer.pages)
+            #     writer.pages[0].rotate(rot_angle)
+                # rotate_page(i,hold_rotation_angle)
+                # writer.add_page(reader.pages[i])
+                # writer.pages[i].rotate(rot_angle)
+            for i in range(num_pages): 
+                writer.add_page(reader.pages[i]) # this is required for we wish to rotate only selected pages yet keep rest of the pages.
+                # had we put this add_page to the condition below, it would only save the selected pages after applying the rotation and not the rest of the pdf.
+                # that certainly could become a feature but for now we move onwards.
                 if i in selected_pages:
-                    writer.add_page(reader.pages[i])
-
                 # current_page_index = int(i[4:])-1
                     writer.pages[i].rotate(rot_angle)  
-            # with open(f"rotated-{pdf}", "wb") as fp:
+                # with open(f"rotated-{pdf}", "wb") as fp:
             writer.write(f"rotated-{pdf}")
         elif all_pdfs == "Yes" and selected_option == selected_options[1]:      # the logic below is wrong, should be for selected in pdfs; for selected_pg in pages; rotate. 
-            # for selected_pdf in pdfs:
-            #     print(selected_pages)
-
-            for i in selected_pages:
+            for i in range(num_pages):
                 writer.add_page(reader.pages[i])
-                writer.pages[i].rotate(rot_angle)
-            # for i in range(num_pages):
-            #     writer.add_page(reader.pages[i])
-            #     writer.pages[i].rotate(rot_angle)
+                if i in selected_pages:
+                    writer.pages[i].rotate(rot_angle)
             writer.write(f"rotated-{pdf}")
         console.print(f"[bold green]Successfully rotated \[{pdf}] 👍\n")
 

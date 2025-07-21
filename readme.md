@@ -89,6 +89,9 @@ Trying avoid paying for subscription fees and stuff.
 ### Features to add.
 - [ ] give options to choose rotate all pages by selected angle.
 - [ ] option to choose pages of a pdf from selected pdfs and rotate them by selected angle.
+    [X] option to select pdf and apply selected angle to it.
+    [X] option to apply the same settings to rest of the pdfs.
+    [ ] error handling for when the page is out of range after one asks for the rotation to be applied to all the pdfs for selected page numbers based on the first pdf.
 ## Rotating pages.
 
 ## Extracting pages.
@@ -210,10 +213,10 @@ pdfnumbering==0.1.1
 readchar===4.0.6
 
 ## Notable bugs in exes.
-- [ ] ctr + d doesnt exit gracefully.
-    - [ ] merger
-    - [ ] extract
+
 - [ ] ctr + c doesn't exit gracefully either. 
     - [ ] merger
     - [ ] extract
-
+    - [ ] rotate_complex.py
+    - [X] scritp.py
+    - [X] rotator_inq.py
