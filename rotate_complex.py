@@ -1,4 +1,6 @@
-"""just rotator_inq.py but with more options for the user."""
+"""
+just rotator_inq.py but with more options for the user.
+"""
 
 """ 
 Features i want to implement.
@@ -144,16 +146,16 @@ def apply_to_pages_ques():
     return user_reply, ["Yes","No"]
 
 def option_all_few():
-    """ displays option for the user to choose between 
+    """ 
+    displays option for the user to choose between 
     1) all pages  
-    2) select pages"""
+    2) select pages
+    """
     option = [inquirer.List("all_or_not", message="How do you wish to apply the rotation?", choices=["Apply to all pages","let me select pages"])]  # gives option to the user to choose an angle that is multiple of 90.
     apply_to_all_prompt = inquirer.prompt(option)     # prompts the user to select the angle 
     user_reply = apply_to_all_prompt['all_or_not']     # var tht holds the angle selected by user
     print("You have choosen -> ",user_reply)       #prints angle selected by user
     return user_reply, ["Apply to all pages","let me select pages"]
-
-
 
 
 
@@ -196,29 +198,25 @@ if __name__ == "__main__":
             # all_pdfs, apply_to_pdfs_option = apply_to_pdfs_ques()
             # elif len(pdfs) ==1 :
             #     selected_pages = get_pages(num_pages=num_pages)
-            print(num_pages, selected_pages, writer.pages)
-            # for i in selected_pages:
-            #     writer.add_page(reader.pages[i])
-            #     # print(writer.pages)
-            #     writer.pages[0].rotate(rot_angle)
-                # rotate_page(i,hold_rotation_angle)
-                # writer.add_page(reader.pages[i])
-                # writer.pages[i].rotate(rot_angle)
+            # print(num_pages, selected_pages, writer.pages)
             for i in range(num_pages): 
                 writer.add_page(reader.pages[i]) # this is required for we wish to rotate only selected pages yet keep rest of the pages.
                 # had we put this add_page to the condition below, it would only save the selected pages after applying the rotation and not the rest of the pdf.
                 # that certainly could become a feature but for now we move onwards.
                 if i in selected_pages:
-                # current_page_index = int(i[4:])-1
                     writer.pages[i].rotate(rot_angle)  
                 # with open(f"rotated-{pdf}", "wb") as fp:
             writer.write(f"rotated-{pdf}")
         elif all_pdfs == "Yes" and selected_option == selected_options[1]:      # the logic below is wrong, should be for selected in pdfs; for selected_pg in pages; rotate. 
-            for i in range(num_pages):
-                writer.add_page(reader.pages[i])
-                if i in selected_pages:
-                    writer.pages[i].rotate(rot_angle)
-            writer.write(f"rotated-{pdf}")
+            if min(selected_pages) > num_pages:
+                console.print("[red]Selected pages are out of range for the current pdf.")
+                continue
+            else:
+                for i in range(num_pages):
+                    writer.add_page(reader.pages[i])
+                    if i in selected_pages:
+                        writer.pages[i].rotate(rot_angle)
+                writer.write(f"rotated-{pdf}")
         console.print(f"[bold green]Successfully rotated \[{pdf}] 👍\n")
 
         

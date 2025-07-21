@@ -90,8 +90,12 @@ Trying avoid paying for subscription fees and stuff.
 - [ ] give options to choose rotate all pages by selected angle.
 - [ ] option to choose pages of a pdf from selected pdfs and rotate them by selected angle.
     [X] option to select pdf and apply selected angle to it.
+
     [X] option to apply the same settings to rest of the pdfs.
-    [ ] error handling for when the page is out of range after one asks for the rotation to be applied to all the pdfs for selected page numbers based on the first pdf.
+
+    [X] error handling for when the page is out of range after one asks for the rotation to be applied to all the pdfs for selected page numbers based on the first pdf.
+        - [X]~~Just skips to the next one since there is no page to rotate, it goes on to the next one without rotating anything.~~
+            - [X] now doesn't make a new roated-{pdf} when the pages selected are out of range for the current pdf.
 ## Rotating pages.
 
 ## Extracting pages.
