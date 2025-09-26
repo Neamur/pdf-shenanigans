@@ -1,4 +1,6 @@
-"""just rotator.py but with the cli interface giving options to users."""
+"""
+just rotator.py but with the cli interface giving options to users.
+"""
 
 import os
 from pypdf import PdfWriter, PdfReader
@@ -19,15 +21,17 @@ questions = [
 
 # idk wht the bottom line does
 answers = inquirer.prompt(questions)    # most likely prompts the user 🤯
-if answers == None:
+if answers == None or len(answers) == 0:
     sys.exit(0)
 pdfs =  [j for i in answers.values() for j in i]    # list of the options the user selected
 # print("selected pdfs are -> ",pdfs,"\n")          # you can use this line instead of the 2 lines written below and remove a module (pretty print/ pprint) thus making this code base lighter and faster. 🤯
 print("selected pdfs are :")
 pp.pprint(pdfs)
 
-rotator_angles = [inquirer.List("angles", message="by what angle do you wish to rotate?", choices=[90, 180,270,-90,-180,-270])]  # gives option to the user to choose an angle that is multiple of 90.
+rotator_angles = [inquirer.List("angles", message="By what angle do you wish to rotate: ", choices=[90, 180,270,-90,-180,-270])]  # gives option to the user to choose an angle that is multiple of 90.
 rotator_angle = inquirer.prompt(rotator_angles)     # prompts the user to select the angle 
+if rotator_angle == None:
+    sys.exit(0)
 rot_angle = rotator_angle['angles']     # var tht holds the angle selected by user
 print("selected angle -> ",rot_angle)       #prints angle selected by user
 

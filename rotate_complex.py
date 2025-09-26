@@ -90,13 +90,11 @@ def get_pdfs():
 def rotation():
     rotator_angles = [inquirer.List("angles", message="by what angle do you wish to rotate? (rotation in clockwise)", choices=[90, 180,270,-90,-180,-270])]  # gives option to the user to choose an angle that is multiple of 90.
     rotator_angle = inquirer.prompt(rotator_angles)     # prompts the user to select the angle 
+    if rotator_angle == None:
+        sys.exit(0)
     rot_angle = rotator_angle['angles']     # var tht holds the angle selected by user
     print("selected angle -> ",rot_angle)       #prints angle selected by user
     return rot_angle
-
-# rot_angle = rotation()
-# hold_rotation_angle = rot_angle 
-# print(rot_angle)
 
 def rotate_page(selected_page,rot_angle):
     writer.pages[selected_page].rotate(rot_angle)
@@ -111,6 +109,8 @@ def get_pages(num_pages):
 
     # idk wht the bottom line does
     prompt_pages_option = inquirer.prompt(pages_option)    # most likely prompts the user 🤯
+    if prompt_pages_option == None:
+        sys.exit(0)
     selected_pages =  [j for i in prompt_pages_option.values() for j in i]    # list of the options the user selected
     # print("selected pdfs are -> ",pdfs,"\n")          # you can use this line instead of the 2 lines written below and remove a module (pretty print/ pprint) thus making this code base lighter and faster. 🤯
     console.print("[blue]Selected pages are :")
@@ -132,7 +132,9 @@ def rotate_pdfs(selected_pdfs,rot_angle):
 
 def apply_to_pdfs_ques():
     apply_to_pdfs = [inquirer.List("apply_all_pdfs", message="do you wish to apply the settings to all the pdfs", choices=["Yes","No"])]  # gives option to the user to choose an angle that is multiple of 90.
-    apply_to_pdfs_prompt = inquirer.prompt(apply_to_pdfs)     # prompts the user to select the angle 
+    apply_to_pdfs_prompt = inquirer.prompt(apply_to_pdfs)     # prompts the user to select the pdf
+    if apply_to_pdfs_prompt == None:
+        sys.exit(0) 
     user_reply = apply_to_pdfs_prompt['apply_all_pdfs']     # var tht holds the angle selected by user
     console.print("[blue]You have choosen -> ",user_reply)       #prints angle selected by user
     return user_reply, ["Yes","No"]
@@ -140,8 +142,10 @@ def apply_to_pdfs_ques():
 # def apply_to_pages_ques():
 def apply_to_pages_ques():
     apply_to_pages = [inquirer.List("apply_all_pages", message="do you wish to apply the settings to all the pages", choices=["Yes","No"])]  # gives option to the user to choose an angle that is multiple of 90.
-    apply_to_pdfs_prompt = inquirer.prompt(apply_to_pdfs)     # prompts the user to select the angle 
-    user_reply = apply_to_pdfs_prompt['apply_all_pages']     # var tht holds the angle selected by user
+    apply_to_pages_prompt = inquirer.prompt(apply_to_pdfs)     # prompts the user to select the angle 
+    if apply_to_pages_prompt == None:
+        sys.exit(0)
+    user_reply = apply_to_pages_prompt['apply_all_pages']     # var tht holds the angle selected by user
     console.print("[blue]You have choosen -> ",user_reply)       #prints angle selected by user
     return user_reply, ["Yes","No"]
 
