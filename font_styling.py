@@ -73,7 +73,7 @@ def margin_pos(taking_self_as_arg):     # this guy sets the x position.
 
 def dynamic_font_scaling(taking_self_as_arg):       # scales the font size so that it doesnt appear too tiny/too large when the page size changes within the pdf.
     scaled_font_size = int(((page_dimension[2]//WIDTH_RATIO)*(page_dimension[3]//HEIGHT_RATIO))//FONT_RATIO)
-    if scaled_font_size >1:
+    if scaled_font_size > 1:
         taking_self_as_arg.font_size_pt = int(((page_dimension[2]//WIDTH_RATIO)*(page_dimension[3]//HEIGHT_RATIO))//FONT_RATIO)
     else:
         taking_self_as_arg.font_size_pt = 1
