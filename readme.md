@@ -209,12 +209,14 @@ to add the program to your user and allow systemwide usage only for that user.
     - that readchar is a submodule that inquirer calls, guessing based on the error.
  
 ## package versions (requirements.txt)
+```
 PyPDF4==1.27.0
 pypdf==4.2.0
 rich==13.7.1
 inquirer==3.2.4
 pdfnumbering==0.1.1
 readchar===4.0.6
+```
 
 ## Notable bugs in exes.
 
@@ -224,3 +226,4 @@ readchar===4.0.6
     - [ ] rotate_complex.py
     - [X] scritp.py
     - [X] rotator_inq.py
+
